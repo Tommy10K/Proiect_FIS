@@ -1,0 +1,26 @@
+.complaint-list {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.complaint-item {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.complaint-item:last-child {
+  border-bottom: none;
+}
+
+.complaint-item h3 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.complaint-item p {
+  margin: 5px 0;
+}
