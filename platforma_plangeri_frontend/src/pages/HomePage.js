@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ComplaintList from '../components/ComplaintList';
 import ComplaintForm from '../components/ComplaintForm';
+import './HomePage.css';
 
 function HomePage() {
   const [complaints, setComplaints] = useState([]);

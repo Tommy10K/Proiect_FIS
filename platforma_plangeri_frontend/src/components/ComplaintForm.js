@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './ComplaintForm.css';
 
 function ComplaintForm({ updateComplaints, setView }) {
   const [title, setTitle] = useState('');

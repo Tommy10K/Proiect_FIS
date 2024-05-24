@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './ComplaintList.css';
 
 function ComplaintList({ complaints, role, updateComplaints }) {
   useEffect(() => {
