@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const cors = require('cors');
-const User = require('./models/User');  
+const User = require('./models/User'); 
 
 const app = express();
 
@@ -13,6 +13,7 @@ app.use(cors());
 mongoose.connect('mongodb+srv://albertopopescu:fortasteaua27@cluster0.fr5wmgt.mongodb.net/platforma_plangeri?retryWrites=true&w=majority')
   .then(() => console.log('MongoDB Atlas connected'))
   .catch(err => console.log(err));
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

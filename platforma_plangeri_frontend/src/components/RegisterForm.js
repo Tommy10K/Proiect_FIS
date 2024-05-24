@@ -49,7 +49,7 @@ function RegisterForm() {
         <label>Role:</label>
         <select value={role} onChange={(e) => setRole(e.target.value)}>
           <option value="citizen">Citizen</option>
-          <option value="town hall">Town Hall</option>
+          <option value="town hall">Admin</option>
         </select>
       </div>
       <button type="submit">Register</button>
