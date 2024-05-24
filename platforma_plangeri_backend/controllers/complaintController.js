@@ -1,9 +1,9 @@
-const Complaint = require('../models/Complaint');
+  const Complaint = require('../models/Complaint');
 
 exports.createComplaint = async (req, res) => {
-  const { title, description, location, user } = req.body;
+  const { title, description, location } = req.body;
   try {
-    const complaint = new Complaint({ title, description, location, user });
+    const complaint = new Complaint({ title, description, location, user: req.user._id });
     await complaint.save();
     res.status(201).json({ message: 'Complaint created successfully', complaint });
   } catch (err) {
@@ -41,6 +41,9 @@ exports.updateComplaint = async (req, res) => {
     if (!complaint) {
       return res.status(404).json({ message: 'Complaint not found' });
     }
+    if (req.user.role !== 'primarie') {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }
     complaint.title = title;
     complaint.description = description;
     complaint.location = location;
@@ -58,6 +61,9 @@ exports.deleteComplaint = async (req, res) => {
     const complaint = await Complaint.findById(id);
     if (!complaint) {
       return res.status(404).json({ message: 'Complaint not found' });
+    }
+    if (req.user.role !== 'primarie') {
+      return res.status(403).json({ message: 'Unauthorized' });
     }
     await complaint.remove();
     res.status(200).json({ message: 'Complaint deleted successfully' });

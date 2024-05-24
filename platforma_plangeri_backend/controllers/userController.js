@@ -1,30 +1,33 @@
-const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const passport = require('passport');
+const User = require('../models/User');
 
 exports.register = async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
-    let user = await User.findOne({ email });
-    if (user) {
-      return res.status(400).json({ message: 'Email already exists' });
-    }
-
-    user = new User({ name, email, password, role });
+    const user = new User({ name, email, password, role });
     await user.save();
-    res.status(201).json({ message: 'User registered successfully' });
+    const token = jwt.sign({ id: user._id, role: user.role }, 'secret', { expiresIn: '1h' });
+    res.status(201).json({ message: 'User registered successfully', token, role: user.role });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
 };
 
-exports.login = (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) return next(err);
-    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
-    req.logIn(user, (err) => {
-      if (err) return next(err);
-      res.status(200).json({ message: 'Logged in successfully', user });
-    });
-  })(req, res, next);
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+    const token = jwt.sign({ id: user._id, role: user.role }, 'secret', { expiresIn: '1h' });
+    res.status(200).json({ message: 'User logged in successfully', token, role: user.role });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
 };

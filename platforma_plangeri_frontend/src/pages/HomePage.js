@@ -6,21 +6,42 @@ import ComplaintForm from '../components/ComplaintForm';
 function HomePage() {
   const [complaints, setComplaints] = useState([]);
   const [role, setRole] = useState('');
+  const [view, setView] = useState('view');
+
+  const fetchComplaints = () => {
+    const token = localStorage.getItem('token');
+
+    axios.get('http://localhost:5000/api/complaints', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(response => setComplaints(response.data))
+      .catch(error => console.error('Eroare la preluarea plângerilor:', error));
+  };
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setRole(params.get('role'));
-
-    axios.get('http://localhost:5000/api/complaints')
-      .then(response => setComplaints(response.data))
-      .catch(error => console.error('Eroare la preluarea plângerilor:', error));
+    fetchComplaints();
   }, []);
 
+  const handleViewChange = (view) => {
+    setView(view);
+    if (view === 'view') {
+      fetchComplaints();
+    }
+  };
+
   return (
-    <div>
+    <div className="home-container">
       <h1>Plângeri</h1>
-      {role === 'citizen' && <ComplaintForm />}
-      <ComplaintList complaints={complaints} />
+      <nav>
+        <button onClick={() => handleViewChange('view')}>Vizualizează Plângeri</button>
+        {role === 'citizen' && <button onClick={() => handleViewChange('create')}>Creează Plângere</button>}
+      </nav>
+      {view === 'view' && <ComplaintList complaints={complaints} role={role} updateComplaints={fetchComplaints} />}
+      {view === 'create' && <ComplaintForm updateComplaints={fetchComplaints} setView={setView} />}
     </div>
   );
 }

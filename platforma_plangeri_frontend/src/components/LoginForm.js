@@ -9,9 +9,9 @@ function LoginForm() {
     e.preventDefault();
     axios.post('http://localhost:5000/api/users/login', { email, password })
       .then(response => {
-        console.log('Logged in successfully:', response.data);
+        console.log('Autentificare reușită:', response.data);
       })
-      .catch(error => console.error('Error logging in:', error));
+      .catch(error => console.error('Eroare la autentificare:', error));
   };
 
   return (
@@ -26,7 +26,7 @@ function LoginForm() {
         />
       </div>
       <div>
-        <label>Password:</label>
+        <label>Parolă:</label>
         <input
           type="password"
           value={password}
