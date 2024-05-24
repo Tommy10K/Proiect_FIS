@@ -17,30 +17,26 @@ function AuthForm() {
     if (isLogin) {
       axios.post('http://localhost:5000/api/users/login', { email, password })
         .then(response => {
-          console.log('Logare cu succes:', response.data);
-          if (response.data.role === 'town hall') {
-            window.location.href = '/home?role=town hall';
-          } else {
-            window.location.href = '/home?role=citizen';
-          }
+          console.log('Autentificare reușită:', response.data);
+          localStorage.setItem('token', response.data.token);
+          const userRole = response.data.role === 'primarie' ? 'primarie' : 'citizen';
+          window.location.href = `/home?role=${userRole}`;
         })
-        .catch(error => console.error('Eroare la logare:', error));
+        .catch(error => console.error('Eroare la autentificare:', error));
     } else {
       axios.post('http://localhost:5000/api/users/register', { name, email, password, role })
         .then(response => {
-          console.log('Înregistrare cu succes:', response.data);
-          if (response.data.role === 'town hall') {
-            window.location.href = '/home?role=town hall';
-          } else {
-            window.location.href = '/home?role=citizen';
-          }
+          console.log('Înregistrare reușită:', response.data);
+          localStorage.setItem('token', response.data.token);
+          const userRole = response.data.role === 'primarie' ? 'primarie' : 'citizen';
+          window.location.href = `/home?role=${userRole}`;
         })
         .catch(error => console.error('Eroare la înregistrare:', error));
     }
   };
 
   return (
-    <div>
+    <div className="auth-container">
       <h1>{isLogin ? 'Logare' : 'Înregistrare'}</h1>
       <form onSubmit={handleSubmit}>
         {!isLogin && (
@@ -77,14 +73,14 @@ function AuthForm() {
             <label>Rol:</label>
             <select value={role} onChange={(e) => setRole(e.target.value)}>
               <option value="citizen">Cetățean</option>
-              <option value="town hall">Town Hall</option>
+              <option value="primarie">Primărie</option>
             </select>
           </div>
         )}
-        <button type="submit">{isLogin ? 'Logare' : 'Înregistrare'}</button>
+        <button type="submit">{isLogin ? 'Loghează-te' : 'Înregistrează-te'}</button>
       </form>
       <button onClick={handleSwitch}>
-        {isLogin ? 'Nu ai cont? Înregistrează-te' : 'Ai deja cont? Loghează-te'}
+        {isLogin ? 'Nu ai un cont? Înregistrează-te' : 'Ai deja un cont? Loghează-te'}
       </button>
     </div>
   );

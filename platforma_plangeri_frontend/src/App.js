@@ -7,6 +7,9 @@ function App() {
   return (
     <Router>
       <div className="App">
+        <header>
+          <h1>Platformă de Plângeri</h1>
+        </header>
         <Routes>
           <Route path="/" element={<AuthForm />} />
           <Route path="/home" element={<HomePage />} />

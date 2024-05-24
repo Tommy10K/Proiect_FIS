@@ -11,15 +11,15 @@ function RegisterForm() {
     e.preventDefault();
     axios.post('http://localhost:5000/api/users/register', { name, email, password, role })
       .then(response => {
-        console.log('Registered successfully:', response.data);
+        console.log('Înregistrare reușită:', response.data);
       })
-      .catch(error => console.error('Error registering:', error));
+      .catch(error => console.error('Eroare la înregistrare:', error));
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        <label>Name:</label>
+        <label>Nume:</label>
         <input
           type="text"
           value={name}
@@ -37,7 +37,7 @@ function RegisterForm() {
         />
       </div>
       <div>
-        <label>Password:</label>
+        <label>Parolă:</label>
         <input
           type="password"
           value={password}
@@ -46,13 +46,13 @@ function RegisterForm() {
         />
       </div>
       <div>
-        <label>Role:</label>
+        <label>Rol:</label>
         <select value={role} onChange={(e) => setRole(e.target.value)}>
-          <option value="citizen">Citizen</option>
-          <option value="town hall">Admin</option>
+          <option value="citizen">Cetățean</option>
+          <option value="primarie">Primărie</option>
         </select>
       </div>
-      <button type="submit">Register</button>
+      <button type="submit">Înregistrează-te</button>
     </form>
   );
 }
