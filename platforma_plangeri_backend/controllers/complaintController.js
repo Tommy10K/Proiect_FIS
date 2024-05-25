@@ -3,7 +3,12 @@ const Complaint = require('../models/Complaint');
 exports.createComplaint = async (req, res) => {
   const { title, description, location } = req.body;
   try {
-    const complaint = new Complaint({ title, description, location, user: req.user._id });
+    const complaint = new Complaint({ 
+      title, 
+      description, 
+      location, 
+      user: req.user._id
+    });
     await complaint.save();
     res.status(201).json({ message: 'Complaint created successfully', complaint });
   } catch (err) {
