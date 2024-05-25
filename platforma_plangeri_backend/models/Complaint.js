@@ -14,6 +14,10 @@ const ComplaintSchema = new Schema({
     type: String,
     required: true,
   },
+  posterName: {
+    type: String,
+    required: false,
+  },
   status: {
     type: String,
     default: 'nou', 
