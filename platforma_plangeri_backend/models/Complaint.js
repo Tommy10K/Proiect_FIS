@@ -16,7 +16,7 @@ const ComplaintSchema = new Schema({
   },
   status: {
     type: String,
-    default: 'pending',
+    default: 'nou', 
   },
   user: {
     type: Schema.Types.ObjectId,

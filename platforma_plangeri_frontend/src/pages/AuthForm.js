@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AuthForm.css';
+import cities from './cities';
 
 function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
@@ -8,6 +9,18 @@ function AuthForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('citizen');
+  const [availableCities, setAvailableCities] = useState(cities);
+
+  useEffect(() => {
+    if (role === 'primarie') {
+      axios.get('http://localhost:5000/api/users/usedCities')
+        .then(response => {
+          const usedCities = response.data;
+          setAvailableCities(cities.filter(city => !usedCities.includes(city)));
+        })
+        .catch(error => console.error('Eroare la preluarea oraselor:', error));
+    }
+  }, [role]);
 
   const handleSwitch = () => {
     setIsLogin(!isLogin);
@@ -18,17 +31,17 @@ function AuthForm() {
     if (isLogin) {
       axios.post('http://localhost:5000/api/users/login', { email, password })
         .then(response => {
-          console.log('Autentificare reușită:', response.data);
-          localStorage.setItem('token', response.data.token);
+          console.log('Logare cu succes:', response.data);
+          localStorage.setItem('token', response.data.token); 
           const userRole = response.data.role === 'primarie' ? 'primarie' : 'citizen';
           window.location.href = `/home?role=${userRole}`;
         })
-        .catch(error => console.error('Eroare la autentificare:', error));
+        .catch(error => console.error('Login error:', error));
     } else {
       axios.post('http://localhost:5000/api/users/register', { name, email, password, role })
         .then(response => {
-          console.log('Înregistrare reușită:', response.data);
-          localStorage.setItem('token', response.data.token);
+          console.log('înregistrare cu succes:', response.data);
+          localStorage.setItem('token', response.data.token); 
           const userRole = response.data.role === 'primarie' ? 'primarie' : 'citizen';
           window.location.href = `/home?role=${userRole}`;
         })
@@ -43,12 +56,21 @@ function AuthForm() {
         {!isLogin && (
           <div>
             <label>Nume:</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+            {role === 'primarie' ? (
+              <select value={name} onChange={(e) => setName(e.target.value)} required>
+                <option value="">Alege orașul</option>
+                {availableCities.map(city => (
+                  <option key={city} value={city}>{city}</option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            )}
           </div>
         )}
         <div>
@@ -78,10 +100,10 @@ function AuthForm() {
             </select>
           </div>
         )}
-        <button type="submit">{isLogin ? 'Loghează-te' : 'Înregistrează-te'}</button>
+        <button type="submit">{isLogin ? 'Loghează- te' : 'Înregistrare'}</button>
       </form>
       <button onClick={handleSwitch}>
-        {isLogin ? 'Nu ai un cont? Înregistrează-te' : 'Ai deja un cont? Loghează-te'}
+        {isLogin ? 'Nu ai cont? Înregistrează- te' : 'Ai deja cont? Loghează- te'}
       </button>
     </div>
   );
