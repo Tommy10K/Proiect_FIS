@@ -1,0 +1,47 @@
+.complaint-page-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.complaint-page-title {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.complaint-page-details {
+    margin: 20px 0;
+}
+
+.complaint-page-details p {
+    margin: 10px 0;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.complaint-page-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.complaint-page-back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #336699;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    cursor: pointer;
+}
+
+.complaint-page-back-button:hover {
+    background-color: #1a4d80;
+}

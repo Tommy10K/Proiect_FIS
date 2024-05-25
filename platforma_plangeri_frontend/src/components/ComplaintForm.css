@@ -28,7 +28,7 @@
     width: 100%;
     padding: 10px;
     border: none;
-    background-color: #61dafb;
+    background-color: #336699;
     color: #fff;
     cursor: pointer;
     font-size: 16px;
@@ -37,6 +37,6 @@
   }
   
   .complaint-form button:hover {
-    background-color: #21a1f1;
+    background-color: #336699;
   }
   

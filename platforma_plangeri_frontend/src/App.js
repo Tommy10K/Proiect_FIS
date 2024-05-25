@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AuthForm from './pages/AuthForm';
+import ComplaintPage from './pages/ComplaintPage';
 import './App.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<AuthForm />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/complaint/:id" element={<ComplaintPage />} />
         </Routes>
       </div>
     </Router>
@@ -21,3 +23,4 @@ function App() {
 }
 
 export default App;
+

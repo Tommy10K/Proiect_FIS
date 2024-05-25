@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import './ComplaintList.css';
 
-function ComplaintList({ complaints, role, updateComplaints }) {
+function ComplaintList({ complaints }) {
   useEffect(() => {
     console.log(complaints);
   }, [complaints]);
@@ -19,7 +20,7 @@ function ComplaintList({ complaints, role, updateComplaints }) {
     <div className="complaint-list">
       {sortedComplaints.map(complaint => (
         <div key={complaint._id} className="complaint-item">
-          <h3>{complaint.title}</h3>
+          <h3><Link to={`/complaint/${complaint._id}`}>{complaint.title}</Link></h3>
           <p><strong>Descriere:</strong> {complaint.description}</p>
           <p><strong>Locație:</strong> {complaint.location}</p>
           <p><strong>Status:</strong> {complaint.status}</p>

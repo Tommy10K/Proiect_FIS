@@ -18,7 +18,7 @@ nav button {
   margin: 0 10px;
   padding: 10px 20px;
   border: none;
-  background-color: #61dafb;
+  background-color: #336699;
   color: #fff;
   cursor: pointer;
   font-size: 16px;
@@ -27,7 +27,7 @@ nav button {
 }
 
 nav button:hover {
-  background-color: #21a1f1;
+  background-color: #1a4d80;
 }
 
 form {
@@ -60,7 +60,7 @@ form button {
   width: 100%;
   padding: 10px;
   border: none;
-  background-color: #61dafb;
+  background-color: #336699;
   color: #fff;
   cursor: pointer;
   font-size: 16px;
@@ -69,7 +69,7 @@ form button {
 }
 
 form button:hover {
-  background-color: #21a1f1;
+  background-color: #1a4d80;
 }
 
 h1 {
