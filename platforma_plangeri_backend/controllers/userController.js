@@ -31,3 +31,13 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+exports.getUsedCities = async (req, res) => {
+  try {
+    const users = await User.find({ role: 'primarie' }).select('name -_id');
+    const usedCities = users.map(user => user.name);
+    res.status(200).json(usedCities);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
