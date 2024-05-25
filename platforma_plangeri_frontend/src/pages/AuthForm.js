@@ -18,7 +18,7 @@ function AuthForm() {
           const usedCities = response.data;
           setAvailableCities(cities.filter(city => !usedCities.includes(city)));
         })
-        .catch(error => console.error('Eroarea la preluarea oraselor:', error));
+        .catch(error => console.error('Eroare la preluarea oraselor:', error));
     }
   }, [role]);
 
@@ -40,25 +40,25 @@ function AuthForm() {
     } else {
       axios.post('http://localhost:5000/api/users/register', { name, email, password, role })
         .then(response => {
-          console.log('Inregistrare cu succes:', response.data);
+          console.log('înregistrare cu succes:', response.data);
           localStorage.setItem('token', response.data.token); 
           const userRole = response.data.role === 'primarie' ? 'primarie' : 'citizen';
           window.location.href = `/home?role=${userRole}`;
         })
-        .catch(error => console.error('Eroare la inregistrare:', error));
+        .catch(error => console.error('Eroare la înregistrare:', error));
     }
   };
 
   return (
     <div className="auth-container">
-      <h1>{isLogin ? 'Login' : 'Register'}</h1>
+      <h1>{isLogin ? 'Logare' : 'Înregistrare'}</h1>
       <form onSubmit={handleSubmit}>
         {!isLogin && (
           <div>
-            <label>Name:</label>
+            <label>Nume:</label>
             {role === 'primarie' ? (
               <select value={name} onChange={(e) => setName(e.target.value)} required>
-                <option value="">Select city</option>
+                <option value="">Alege orașul</option>
                 {availableCities.map(city => (
                   <option key={city} value={city}>{city}</option>
                 ))}
@@ -83,7 +83,7 @@ function AuthForm() {
           />
         </div>
         <div>
-          <label>Password:</label>
+          <label>Parolă:</label>
           <input
             type="password"
             value={password}
@@ -93,10 +93,10 @@ function AuthForm() {
         </div>
         {!isLogin && (
           <div>
-            <label>Role:</label>
+            <label>Rol:</label>
             <select value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="citizen">Citizen</option>
-              <option value="primarie">Primarie</option>
+              <option value="citizen">Cetățean</option>
+              <option value="primarie">Primărie</option>
             </select>
           </div>
         )}
