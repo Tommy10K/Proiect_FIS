@@ -2,11 +2,15 @@ const Complaint = require('../models/Complaint');
 
 exports.createComplaint = async (req, res) => {
   const { title, description, location } = req.body;
+
+  const posterName = req.user.name;
+
   try {
     const complaint = new Complaint({ 
       title, 
       description, 
-      location, 
+      location,
+      posterName,
       user: req.user._id
     });
     await complaint.save();

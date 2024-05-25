@@ -24,7 +24,7 @@ function ComplaintList({ complaints }) {
           <p><strong>Descriere:</strong> {complaint.description}</p>
           <p><strong>Locație:</strong> {complaint.location}</p>
           <p><strong>Status:</strong> {complaint.status}</p>
-          <p><strong>Utilizator:</strong> {complaint.user && complaint.user.name ? complaint.user.name : 'Utilizator necunoscut'}</p>
+          <p><strong>Utilizator:</strong> {complaint.posterName ? complaint.posterName : 'Utilizator necunoscut'}</p>
         </div>
       ))}
     </div>
