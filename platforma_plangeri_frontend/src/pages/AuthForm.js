@@ -32,7 +32,7 @@ function AuthForm() {
       axios.post('http://localhost:5000/api/users/login', { email, password })
         .then(response => {
           console.log('Logare cu succes:', response.data);
-          localStorage.setItem('token', response.data.token); // Store the token
+          localStorage.setItem('token', response.data.token); 
           const userRole = response.data.role === 'primarie' ? 'primarie' : 'citizen';
           window.location.href = `/home?role=${userRole}`;
         })
@@ -41,7 +41,7 @@ function AuthForm() {
       axios.post('http://localhost:5000/api/users/register', { name, email, password, role })
         .then(response => {
           console.log('Inregistrare cu succes:', response.data);
-          localStorage.setItem('token', response.data.token); // Store the token
+          localStorage.setItem('token', response.data.token); 
           const userRole = response.data.role === 'primarie' ? 'primarie' : 'citizen';
           window.location.href = `/home?role=${userRole}`;
         })

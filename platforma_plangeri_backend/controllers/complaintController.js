@@ -14,8 +14,8 @@ exports.createComplaint = async (req, res) => {
 exports.getAllComplaints = async (req, res) => {
   try {
     const complaints = await Complaint.find().populate('user', 'name email').sort({
-      status: 1, // Sortează după status
-      createdAt: -1 // Sortează și după data creării în ordine descrescătoare
+      status: 1, 
+      createdAt: -1 
     });
     res.status(200).json(complaints);
   } catch (err) {
