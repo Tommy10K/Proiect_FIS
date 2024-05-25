@@ -1,4 +1,5 @@
 const Complaint = require('../models/Complaint');
+const Comment = require('../models/Comment');
 
 exports.createComplaint = async (req, res) => {
   const { title, description, location } = req.body;
@@ -79,6 +80,52 @@ exports.deleteComplaint = async (req, res) => {
     }
     await complaint.remove();
     res.status(200).json({ message: 'Complaint deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.addComment = async (req, res) => {
+  const { id } = req.params;
+  const { text } = req.body;
+
+  console.log("here");
+  try {
+    const complaint = await Complaint.findById(id);
+    if (!complaint) {
+      console.log("here2");
+      return res.status(404).json({ message: 'Complaint not found' });
+    }
+
+    console.log(complaint);
+    const user = req.user.name;
+    console.log(user);
+    const comment = new Comment({
+      user,
+      text
+    });
+
+    await comment.save();
+    console.log(comment);
+
+    complaint.comments.push(comment._id);
+    await complaint.save();
+
+    res.status(201).json({ message: 'Comment added successfully', comment });
+  } catch (err) {
+    console.error("Error adding comment:", err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.getComments = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const complaint = await Complaint.findById(id).populate('comments.user', 'name');
+    if (!complaint) {
+      return res.status(404).json({ message: 'Complaint not found' });
+    }
+    res.status(200).json(complaint.comments);
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
