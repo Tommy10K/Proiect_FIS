@@ -6,9 +6,18 @@ function ComplaintList({ complaints, role, updateComplaints }) {
     console.log(complaints);
   }, [complaints]);
 
+  const sortedComplaints = complaints.sort((a, b) => {
+    const statusOrder = {
+      'nou': 1,
+      'în derulare': 2,
+      'rezolvat': 3
+    };
+    return statusOrder[a.status] - statusOrder[b.status];
+  });
+
   return (
     <div className="complaint-list">
-      {complaints.map(complaint => (
+      {sortedComplaints.map(complaint => (
         <div key={complaint._id} className="complaint-item">
           <h3>{complaint.title}</h3>
           <p><strong>Descriere:</strong> {complaint.description}</p>

@@ -1,4 +1,4 @@
-  const Complaint = require('../models/Complaint');
+const Complaint = require('../models/Complaint');
 
 exports.createComplaint = async (req, res) => {
   const { title, description, location } = req.body;
@@ -13,7 +13,10 @@ exports.createComplaint = async (req, res) => {
 
 exports.getAllComplaints = async (req, res) => {
   try {
-    const complaints = await Complaint.find().populate('user', 'name email');
+    const complaints = await Complaint.find().populate('user', 'name email').sort({
+      status: 1, // Sortează după status
+      createdAt: -1 // Sortează și după data creării în ordine descrescătoare
+    });
     res.status(200).json(complaints);
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
