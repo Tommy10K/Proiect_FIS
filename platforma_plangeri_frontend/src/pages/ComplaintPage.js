@@ -49,11 +49,11 @@ function ComplaintPage() {
   return (
     <div className="complaint-page">
       <h1>{complaint.title}</h1>
-      <p><strong>Descriere:</strong> {complaint.description}</p>
+      <p><strong>Oraș:</strong> {complaint.city}</p>
       <p><strong>Locație:</strong> {complaint.location}</p>
+      <p><strong>Descriere:</strong> {complaint.description}</p>
       <p><strong>Status:</strong> {complaint.status}</p>
-      <p><strong>Utilizator:</strong> {complaint.posterName}</p>
-
+      <p><strong>Utilizator:</strong> {complaint.posterName ? complaint.posterName : 'Utilizator necunoscut'}</p>
       <h2>Comentarii</h2>
       <div className="comments-section">
         {Array.isArray(comments) && comments.length > 0 ? (

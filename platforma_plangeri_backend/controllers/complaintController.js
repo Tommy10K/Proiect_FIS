@@ -2,7 +2,7 @@ const Complaint = require('../models/Complaint');
 const Comment = require('../models/Comment');
 
 exports.createComplaint = async (req, res) => {
-  const { title, description, location } = req.body;
+  const { title, description, location, city } = req.body;
 
   const posterName = req.user.name;
 
@@ -12,7 +12,8 @@ exports.createComplaint = async (req, res) => {
       description, 
       location,
       posterName,
-      user: req.user._id
+      user: req.user._id,
+      city
     });
     await complaint.save();
     res.status(201).json({ message: 'Complaint created successfully', complaint });

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AuthForm from './pages/AuthForm';
 import ComplaintPage from './pages/ComplaintPage';
+import ComplaintForm from './components/ComplaintForm';
 import './App.css';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<AuthForm />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/complaint/:id" element={<ComplaintPage />} />
+          <Route path="/complaintform" element={<ComplaintForm />} />
         </Routes>
       </div>
     </Router>

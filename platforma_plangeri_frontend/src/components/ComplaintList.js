@@ -21,7 +21,7 @@ function ComplaintList({ complaints }) {
       {sortedComplaints.map(complaint => (
         <div key={complaint._id} className="complaint-item">
           <h3><Link to={`/complaint/${complaint._id}`}>{complaint.title}</Link></h3>
-          <p><strong>Descriere:</strong> {complaint.description}</p>
+          <p><strong>Oraș:</strong> {complaint.city}</p>
           <p><strong>Locație:</strong> {complaint.location}</p>
           <p><strong>Status:</strong> {complaint.status}</p>
           <p><strong>Utilizator:</strong> {complaint.posterName ? complaint.posterName : 'Utilizator necunoscut'}</p>
