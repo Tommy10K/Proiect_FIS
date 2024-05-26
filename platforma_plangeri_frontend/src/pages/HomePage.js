@@ -1,3 +1,4 @@
+// HomePage.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ComplaintList from '../components/ComplaintList';
@@ -14,8 +15,8 @@ function HomePage() {
 
     axios.get('http://localhost:5000/api/complaints', {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        'Authorization': `Bearer ${token}`,
+      },
     })
       .then(response => setComplaints(response.data))
       .catch(error => console.error('Eroare la preluarea plângerilor:', error));

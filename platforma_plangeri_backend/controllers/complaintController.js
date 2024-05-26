@@ -1,3 +1,4 @@
+// complaintController.js
 const Complaint = require('../models/Complaint');
 const Comment = require('../models/Comment');
 
@@ -24,9 +25,10 @@ exports.createComplaint = async (req, res) => {
 
 exports.getAllComplaints = async (req, res) => {
   try {
-    const complaints = await Complaint.find().populate('user', 'name email').sort({
-      status: 1, 
-      createdAt: -1 
+    const query = req.user.role === 'primarie' ? { city: req.user.name } : {};
+    const complaints = await Complaint.find(query).populate('user', 'name email').sort({
+      status: 1,
+      createdAt: -1,
     });
     res.status(200).json(complaints);
   } catch (err) {
