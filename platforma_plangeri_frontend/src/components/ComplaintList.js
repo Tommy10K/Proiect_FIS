@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import './ComplaintList.css';
 
-function ComplaintList({ complaints }) {
+function ComplaintList({ complaints, role, updateComplaints }) {
   useEffect(() => {
     console.log(complaints);
   }, [complaints]);
@@ -15,6 +16,21 @@ function ComplaintList({ complaints }) {
     };
     return statusOrder[a.status] - statusOrder[b.status];
   });
+
+  const handleDelete = (id) => {
+    const token = localStorage.getItem('token');
+
+    axios.delete(`http://localhost:5000/api/complaints/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(response => {
+        console.log('Complaint deleted:', response.data);
+        updateComplaints();
+      })
+      .catch(error => console.error('Error deleting complaint:', error));
+  };
 
   return (
     <div className="complaint-list">
@@ -35,6 +51,9 @@ function ComplaintList({ complaints }) {
           <p>
             <strong>Utilizator:</strong> {complaint.posterName ? complaint.posterName : 'Utilizator necunoscut'}
           </p>
+          {role === 'primarie' && (
+            <button onClick={() => handleDelete(complaint._id)}>Șterge</button>
+          )}
         </div>
       ))}
     </div>
