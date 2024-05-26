@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './ComplaintPage.css';
 
 function ComplaintPage() {
@@ -8,9 +8,14 @@ function ComplaintPage() {
   const [complaint, setComplaint] = useState(null);
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState('');
+  const [role, setRole] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    const userRole = localStorage.getItem('role');
+    console.log("User Role:", userRole); 
+    setRole(userRole);
 
     axios.get(`http://localhost:5000/api/complaints/${id}`, {
       headers: {
@@ -18,12 +23,40 @@ function ComplaintPage() {
       }
     })
       .then(response => {
-        console.log('Complaint fetched:', response.data);
         setComplaint(response.data);
         setComments(response.data.comments);
       })
       .catch(error => console.error('Error fetching complaint:', error));
   }, [id]);
+
+  const handleStatusChange = (e) => {
+    const newStatus = e.target.value;
+    const token = localStorage.getItem('token');
+
+    axios.put(`http://localhost:5000/api/complaints/${id}`, { status: newStatus }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        setComplaint(response.data.complaint);
+      })
+      .catch(error => console.error('Error updating status:', error));
+  };
+
+  const handleDeleteComplaint = () => {
+    const token = localStorage.getItem('token');
+
+    axios.delete(`http://localhost:5000/api/complaints/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(() => {
+        navigate('/home');
+      })
+      .catch(error => console.error('Error deleting complaint:', error));
+  };
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +68,6 @@ function ComplaintPage() {
       }
     })
       .then(response => {
-        console.log('Comment added:', response.data);
         setComments([...comments, response.data.comment]);
         setCommentText('');
       })
@@ -55,6 +87,19 @@ function ComplaintPage() {
       <p><strong>Status:</strong> {complaint.status}</p>
       <p><strong>Utilizator:</strong> {complaint.posterName ? complaint.posterName : 'Utilizator necunoscut'}</p>
       <p><em>{new Date(complaint.createdAt).toLocaleString('ro-RO')}</em></p>
+
+      {role === 'primarie' && (
+        <div className="status-change-container">
+          <label>Schimba Status:</label>
+          <select onChange={handleStatusChange} value={complaint.status}>
+            <option value="nou">Nou</option>
+            <option value="în derulare">În Derulare</option>
+            <option value="rezolvat">Rezolvat</option>
+          </select>
+          <button onClick={handleDeleteComplaint} className="delete-button">Șterge Plângerea</button>
+        </div>
+      )}
+
       <h2>Comentarii</h2>
       <div className="comments-section">
         {Array.isArray(comments) && comments.length > 0 ? (
