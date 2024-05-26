@@ -18,21 +18,11 @@ function ComplaintPage() {
       }
     })
       .then(response => {
-        console.log('Plângerea a fost preluată:', response.data);
+        console.log('Complaint fetched:', response.data);
         setComplaint(response.data);
+        setComments(response.data.comments);
       })
-      .catch(error => console.error('Eroare la preluarea plângerii:', error));
-    
-    axios.get(`http://localhost:5000/api/complaints/${id}/comments`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(response => {
-        console.log('Comentariile au fost preluate:', response.data);
-        setComments(response.data);
-      })
-      .catch(error => console.error('Eroare la preluarea comentariilor:', error));
+      .catch(error => console.error('Error fetching complaint:', error));
   }, [id]);
 
   const handleCommentSubmit = (e) => {
@@ -45,11 +35,11 @@ function ComplaintPage() {
       }
     })
       .then(response => {
-        console.log('Comentariul a fost adăugat:', response.data);
+        console.log('Comment added:', response.data);
         setComments([...comments, response.data.comment]);
         setCommentText('');
       })
-      .catch(error => console.error('Eroare la trimiterea comentariului:', error));
+      .catch(error => console.error('Error posting comment:', error));
   };
 
   if (!complaint) {
@@ -61,7 +51,7 @@ function ComplaintPage() {
       <h1>{complaint.title}</h1>
       <p><strong>Descriere:</strong> {complaint.description}</p>
       <p><strong>Locație:</strong> {complaint.location}</p>
-      <p><strong>Stare:</strong> {complaint.status}</p>
+      <p><strong>Status:</strong> {complaint.status}</p>
       <p><strong>Utilizator:</strong> {complaint.posterName}</p>
 
       <h2>Comentarii</h2>
@@ -70,24 +60,24 @@ function ComplaintPage() {
           comments.map(comment => (
             <div key={comment._id} className="comment-item">
               <p><strong>{comment.user}:</strong> {comment.text}</p>
-              <p><em>{new Date(comment.createdAt).toLocaleString()}</em></p>
+              <p><em>{new Date(comment.createdAt).toLocaleString('ro-RO')}</em></p>
             </div>
           ))
         ) : (
-          <p>Niciun comentariu</p>
+          <p>Niciun comentariu încă.</p>
         )}
       </div>
 
       <form onSubmit={handleCommentSubmit} className="comment-form">
         <div>
-          <label>Adaugă un comentariu:</label>
+          <label>Adăugați un comentariu:</label>
           <textarea
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
             required
           ></textarea>
         </div>
-        <button type="submit">Postează Comentariul</button>
+        <button type="submit">Trimite comentariul</button>
       </form>
     </div>
   );

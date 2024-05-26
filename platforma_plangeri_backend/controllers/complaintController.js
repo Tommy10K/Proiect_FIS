@@ -36,7 +36,7 @@ exports.getAllComplaints = async (req, res) => {
 exports.getComplaintById = async (req, res) => {
   const { id } = req.params;
   try {
-    const complaint = await Complaint.findById(id).populate('user', 'name email');
+    const complaint = await Complaint.findById(id).populate('comments');
     if (!complaint) {
       return res.status(404).json({ message: 'Complaint not found' });
     }
@@ -89,7 +89,6 @@ exports.addComment = async (req, res) => {
   const { id } = req.params;
   const { text } = req.body;
 
-  console.log("here");
   try {
     const complaint = await Complaint.findById(id);
     if (!complaint) {
@@ -97,9 +96,7 @@ exports.addComment = async (req, res) => {
       return res.status(404).json({ message: 'Complaint not found' });
     }
 
-    console.log(complaint);
     const user = req.user.name;
-    console.log(user);
     const comment = new Comment({
       user,
       text
