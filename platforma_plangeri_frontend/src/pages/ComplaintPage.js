@@ -54,6 +54,7 @@ function ComplaintPage() {
       <p><strong>Descriere:</strong> {complaint.description}</p>
       <p><strong>Status:</strong> {complaint.status}</p>
       <p><strong>Utilizator:</strong> {complaint.posterName ? complaint.posterName : 'Utilizator necunoscut'}</p>
+      <p><em>{new Date(complaint.createdAt).toLocaleString('ro-RO')}</em></p>
       <h2>Comentarii</h2>
       <div className="comments-section">
         {Array.isArray(comments) && comments.length > 0 ? (
@@ -64,7 +65,7 @@ function ComplaintPage() {
             </div>
           ))
         ) : (
-          <p>Niciun comentariu încă.</p>
+          <p>Fără comentarii momentan</p>
         )}
       </div>
 
