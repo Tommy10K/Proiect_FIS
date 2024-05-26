@@ -19,7 +19,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/complaint/:id" element={<ComplaintPage />} />
           <Route path="/complaintform" element={<ComplaintForm />} />
-          <Route path="/my-complaints" element={<MyComplaintsPage />} /> {}
+          <Route path="/my-complaints" element={<MyComplaintsPage />} />
         </Routes>
       </div>
     </Router>

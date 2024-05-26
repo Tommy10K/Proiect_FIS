@@ -33,6 +33,7 @@ function AuthForm() {
         .then(response => {
           console.log('Logare cu succes:', response.data);
           localStorage.setItem('token', response.data.token);
+          localStorage.setItem('role', response.data.role); 
           const userRole = response.data.role === 'primarie' ? 'primarie' : 'citizen';
           window.location.href = `/home?role=${userRole}`;
         })
@@ -42,6 +43,7 @@ function AuthForm() {
         .then(response => {
           console.log('Înregistrare cu succes:', response.data);
           localStorage.setItem('token', response.data.token);
+          localStorage.setItem('role', response.data.role); 
           const userRole = response.data.role === 'primarie' ? 'primarie' : 'citizen';
           window.location.href = `/home?role=${userRole}`;
         })

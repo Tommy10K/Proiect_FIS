@@ -71,10 +71,10 @@ exports.updateComplaint = async (req, res) => {
     if (req.user.role !== 'primarie') {
       return res.status(403).json({ message: 'Unauthorized' });
     }
-    complaint.title = title;
-    complaint.description = description;
-    complaint.location = location;
-    complaint.status = status;
+    if (title) complaint.title = title;
+    if (description) complaint.description = description;
+    if (location) complaint.location = location;
+    if (status) complaint.status = status;
     await complaint.save();
     res.status(200).json({ message: 'Complaint updated successfully', complaint });
   } catch (err) {
