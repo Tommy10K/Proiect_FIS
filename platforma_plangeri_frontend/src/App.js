@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import AuthForm from './pages/AuthForm';
 import ComplaintPage from './pages/ComplaintPage';
 import ComplaintForm from './components/ComplaintForm';
+import MyComplaintsPage from './pages/MyComplaintsPage'; 
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/complaint/:id" element={<ComplaintPage />} />
           <Route path="/complaintform" element={<ComplaintForm />} />
+          <Route path="/my-complaints" element={<MyComplaintsPage />} /> {}
         </Routes>
       </div>
     </Router>
@@ -25,4 +27,3 @@ function App() {
 }
 
 export default App;
-

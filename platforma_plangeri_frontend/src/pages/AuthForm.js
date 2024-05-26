@@ -32,7 +32,7 @@ function AuthForm() {
       axios.post('http://localhost:5000/api/users/login', { email, password })
         .then(response => {
           console.log('Logare cu succes:', response.data);
-          localStorage.setItem('token', response.data.token); 
+          localStorage.setItem('token', response.data.token);
           const userRole = response.data.role === 'primarie' ? 'primarie' : 'citizen';
           window.location.href = `/home?role=${userRole}`;
         })
@@ -40,8 +40,8 @@ function AuthForm() {
     } else {
       axios.post('http://localhost:5000/api/users/register', { name, email, password, role })
         .then(response => {
-          console.log('înregistrare cu succes:', response.data);
-          localStorage.setItem('token', response.data.token); 
+          console.log('Înregistrare cu succes:', response.data);
+          localStorage.setItem('token', response.data.token);
           const userRole = response.data.role === 'primarie' ? 'primarie' : 'citizen';
           window.location.href = `/home?role=${userRole}`;
         })
@@ -100,10 +100,10 @@ function AuthForm() {
             </select>
           </div>
         )}
-        <button type="submit">{isLogin ? 'Loghează- te' : 'Înregistrare'}</button>
+        <button type="submit">{isLogin ? 'Loghează-te' : 'Înregistrare'}</button>
       </form>
       <button onClick={handleSwitch}>
-        {isLogin ? 'Nu ai cont? Înregistrează- te' : 'Ai deja cont? Loghează- te'}
+        {isLogin ? 'Nu ai cont? Înregistrează-te' : 'Ai deja cont? Loghează-te'}
       </button>
     </div>
   );

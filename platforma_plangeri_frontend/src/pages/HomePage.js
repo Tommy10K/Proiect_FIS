@@ -3,19 +3,21 @@ import axios from 'axios';
 import ComplaintList from '../components/ComplaintList';
 import ComplaintForm from '../components/ComplaintForm';
 import './HomePage.css';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
   const [complaints, setComplaints] = useState([]);
   const [role, setRole] = useState('');
   const [view, setView] = useState('view');
+  const navigate = useNavigate();
 
   const fetchComplaints = () => {
     const token = localStorage.getItem('token');
 
     axios.get('http://localhost:5000/api/complaints', {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then(response => setComplaints(response.data))
       .catch(error => console.error('Eroare la preluarea plângerilor:', error));
@@ -34,12 +36,17 @@ function HomePage() {
     }
   };
 
+  const handleMyComplaints = () => {
+    navigate('/my-complaints');
+  };
+
   return (
     <div className="home-container">
       <h1>Plângeri</h1>
       <nav>
         <button onClick={() => handleViewChange('view')}>Vizualizează Plângeri</button>
         {role === 'citizen' && <button onClick={() => handleViewChange('create')}>Creează Plângere</button>}
+        {role === 'citizen' && <button onClick={handleMyComplaints}>Plângerile Mele</button>}
       </nav>
       {view === 'view' && <ComplaintList complaints={complaints} role={role} updateComplaints={fetchComplaints} />}
       {view === 'create' && <ComplaintForm updateComplaints={fetchComplaints} setView={setView} />}
