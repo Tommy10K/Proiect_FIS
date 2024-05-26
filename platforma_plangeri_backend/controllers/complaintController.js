@@ -1,20 +1,18 @@
-// complaintController.js
 const Complaint = require('../models/Complaint');
 const Comment = require('../models/Comment');
 
 exports.createComplaint = async (req, res) => {
   const { title, description, location, city } = req.body;
-
   const posterName = req.user.name;
 
   try {
-    const complaint = new Complaint({ 
-      title, 
-      description, 
+    const complaint = new Complaint({
+      title,
+      description,
       location,
       posterName,
       user: req.user._id,
-      city
+      city,
     });
     await complaint.save();
     res.status(201).json({ message: 'Complaint created successfully', complaint });
@@ -27,6 +25,19 @@ exports.getAllComplaints = async (req, res) => {
   try {
     const query = req.user.role === 'primarie' ? { city: req.user.name } : {};
     const complaints = await Complaint.find(query).populate('user', 'name email').sort({
+      status: 1,
+      createdAt: -1,
+    });
+    res.status(200).json(complaints);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.getUserComplaints = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const complaints = await Complaint.find({ user: userId }).populate('user', 'name email').sort({
       status: 1,
       createdAt: -1,
     });
@@ -95,25 +106,21 @@ exports.addComment = async (req, res) => {
   try {
     const complaint = await Complaint.findById(id);
     if (!complaint) {
-      console.log("here2");
       return res.status(404).json({ message: 'Complaint not found' });
     }
 
     const user = req.user.name;
     const comment = new Comment({
       user,
-      text
+      text,
     });
 
     await comment.save();
-    console.log(comment);
-
     complaint.comments.push(comment._id);
     await complaint.save();
 
     res.status(201).json({ message: 'Comment added successfully', comment });
   } catch (err) {
-    console.error("Error adding comment:", err);
     res.status(500).json({ message: 'Server error' });
   }
 };
