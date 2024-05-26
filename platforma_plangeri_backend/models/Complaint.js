@@ -26,7 +26,15 @@ const ComplaintSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users',
   },
-  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+  city: {
+    type: String,
+    required: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 }, {
   timestamps: true
 });
