@@ -22,8 +22,12 @@ exports.createComplaint = async (req, res) => {
 };
 
 exports.getAllComplaints = async (req, res) => {
+  const status = req.query.status;
+  const query = req.user.role === 'primarie' ? { city: req.user.name } : {};
+  if (status) {
+    query.status = status;
+  }
   try {
-    const query = req.user.role === 'primarie' ? { city: req.user.name } : {};
     const complaints = await Complaint.find(query).populate('user', 'name email').sort({
       status: 1,
       createdAt: -1,

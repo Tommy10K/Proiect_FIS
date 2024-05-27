@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './ComplaintList.css';
 
-function ComplaintList({ complaints }) {
+function ComplaintList({ complaints, role }) {
   useEffect(() => {
     console.log(complaints);
   }, [complaints]);

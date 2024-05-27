@@ -9,12 +9,13 @@ function HomePage() {
   const [complaints, setComplaints] = useState([]);
   const [role, setRole] = useState('');
   const [view, setView] = useState('view');
+  const [statusFilter, setStatusFilter] = useState('');
   const navigate = useNavigate();
 
-  const fetchComplaints = () => {
+  const fetchComplaints = (status) => {
     const token = localStorage.getItem('token');
-
-    axios.get('http://localhost:5000/api/complaints', {
+    const url = status ? `http://localhost:5000/api/complaints?status=${status}` : 'http://localhost:5000/api/complaints';
+    axios.get(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -26,14 +27,18 @@ function HomePage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setRole(params.get('role'));
-    fetchComplaints();
-  }, []);
+    fetchComplaints(statusFilter);
+  }, [statusFilter]);
 
   const handleViewChange = (view) => {
     setView(view);
     if (view === 'view') {
-      fetchComplaints();
+      fetchComplaints(statusFilter);
     }
+  };
+
+  const handleStatusFilterChange = (e) => {
+    setStatusFilter(e.target.value);
   };
 
   const handleMyComplaints = () => {
@@ -48,7 +53,20 @@ function HomePage() {
         {role === 'citizen' && <button onClick={() => handleViewChange('create')}>Creează Plângere</button>}
         {role === 'citizen' && <button onClick={handleMyComplaints}>Plângerile Mele</button>}
       </nav>
-      {view === 'view' && <ComplaintList complaints={complaints} role={role} updateComplaints={fetchComplaints} />}
+      {view === 'view' && (
+        <>
+          <div className="filter-container">
+            <label htmlFor="statusFilter">Filtrează după status:</label>
+            <select id="statusFilter" value={statusFilter} onChange={handleStatusFilterChange}>
+              <option value="">Toate</option>
+              <option value="nou">Nou</option>
+              <option value="în derulare">În derulare</option>
+              <option value="rezolvat">Rezolvat</option>
+            </select>
+          </div>
+          <ComplaintList complaints={complaints} role={role} />
+        </>
+      )}
       {view === 'create' && <ComplaintForm updateComplaints={fetchComplaints} setView={setView} />}
     </div>
   );
