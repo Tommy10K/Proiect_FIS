@@ -47,27 +47,28 @@ function HomePage() {
 
   return (
     <div className="home-container">
-      <h1>Plângeri</h1>
-      <nav>
-        <button onClick={() => handleViewChange('view')}>Vizualizează Plângeri</button>
-        {role === 'citizen' && <button onClick={() => handleViewChange('create')}>Creează Plângere</button>}
-        {role === 'citizen' && <button onClick={handleMyComplaints}>Plângerile Mele</button>}
-      </nav>
-      {view === 'view' && (
-        <>
-          <div className="filter-container">
-            <label htmlFor="statusFilter">Filtrează după status:</label>
-            <select id="statusFilter" value={statusFilter} onChange={handleStatusFilterChange}>
-              <option value="">Toate</option>
-              <option value="nou">Nou</option>
-              <option value="în derulare">În derulare</option>
-              <option value="rezolvat">Rezolvat</option>
-            </select>
-          </div>
-          <ComplaintList complaints={complaints} role={role} />
-        </>
-      )}
-      {view === 'create' && <ComplaintForm updateComplaints={fetchComplaints} setView={setView} />}
+      <div className="content">
+        <nav>
+          <button onClick={() => handleViewChange('view')}>Vizualizează Plângeri</button>
+          {role === 'citizen' && <button onClick={() => handleViewChange('create')}>Creează Plângere</button>}
+          {role === 'citizen' && <button onClick={handleMyComplaints}>Plângerile Mele</button>}
+        </nav>
+        {view === 'view' && (
+          <>
+            <div className="filter-container">
+              <label htmlFor="statusFilter">Filtrează după status:</label>
+              <select id="statusFilter" value={statusFilter} onChange={handleStatusFilterChange}>
+                <option value="">Toate</option>
+                <option value="nou">Nou</option>
+                <option value="în derulare">În derulare</option>
+                <option value="rezolvat">Rezolvat</option>
+              </select>
+            </div>
+            <ComplaintList complaints={complaints} role={role} />
+          </>
+        )}
+        {view === 'create' && <ComplaintForm updateComplaints={fetchComplaints} setView={setView} />}
+      </div>
     </div>
   );
 }
