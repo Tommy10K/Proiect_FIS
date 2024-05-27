@@ -1,12 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import './ComplaintList.css';
 
-function ComplaintList({ complaints, role }) {
-  useEffect(() => {
-    console.log(complaints);
-  }, [complaints]);
-
+function ComplaintList({ complaints }) {
   const sortedComplaints = complaints.sort((a, b) => {
     const statusOrder = {
       'nou': 1,
@@ -23,18 +19,10 @@ function ComplaintList({ complaints, role }) {
           <h3>
             <Link to={`/complaint/${complaint._id}`}>{complaint.title}</Link>
           </h3>
-          <p>
-            <strong>Oraș:</strong> {complaint.city}
-          </p>
-          <p>
-            <strong>Locație:</strong> {complaint.location}
-          </p>
-          <p>
-            <strong>Status:</strong> {complaint.status}
-          </p>
-          <p>
-            <strong>Utilizator:</strong> {complaint.posterName ? complaint.posterName : 'Utilizator necunoscut'}
-          </p>
+          <p><strong>Oraș:</strong> {complaint.city}</p>
+          <p><strong>Locație:</strong> {complaint.location}</p>
+          <p><strong>Status:</strong> {complaint.status}</p>
+          <p><strong>Utilizator:</strong> {complaint.posterName ? complaint.posterName : 'Utilizator necunoscut'}</p>
         </div>
       ))}
     </div>
